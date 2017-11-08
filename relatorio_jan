@@ -1,0 +1,81 @@
+Sub relatorio_Jan()
+        Dim coluna(1 To 26) As String
+        coluna(1) = "A"
+        coluna(2) = "C"
+        coluna(3) = "D"
+        coluna(4) = "E"
+        coluna(5) = "F"
+        coluna(6) = "G"
+        coluna(7) = "H"
+        coluna(8) = "I"
+        coluna(9) = "J"
+        coluna(10) = "K"
+        coluna(11) = "L"
+        coluna(12) = "M"
+        coluna(13) = "N"
+        coluna(14) = "O"
+        coluna(16) = "P"
+        coluna(17) = "Q"
+        coluna(18) = "R"
+        coluna(19) = "S"
+        coluna(20) = "T"
+        coluna(21) = "U"
+        coluna(22) = "V"
+        coluna(23) = "W"
+        coluna(24) = "X"
+        coluna(25) = "Y"
+        coluna(26) = "Z"
+        
+'       limpa o relatorio anterio anterior
+        Sheets("Rel_Jan").Range("A1:DX500000").ClearContents
+'       ulinha recebe o valor da quantidade de linhas da planilha
+        ulinha = Plan1.Cells(Rows.Count, 1).End(xlUp).Row
+'       ucoluna recebe a quantidade de colunas que existe na planilha
+        ucoluna = Plan1.Cells(1, Plan1.Columns.Count).End(xlToLeft).Column
+        linha = 6
+        qt = 0
+        i1 = 1
+        i2 = 2
+        i3 = 3
+        trocapag = 0
+        cabecalho = 0
+        CaminhoArquivo = Replace(ThisWorkbook.FullName, "\Projeto_Marconi.xlsm", "")
+        CaminhoImagem = CaminhoArquivo + "\conselho.JPG"
+'       i vai receber 3 q é a coluna onde se tem a primeira informação, e a repetição ira rodar
+'       até i atingir o valor de ucoluna
+        indicecoluna = 1
+        For i = 3 To ucoluna
+            If cabecalho <= 0 Then
+                With Sheets("Rel_Jan").Range(coluna(indicecoluna) + "1")
+                    L = .Left
+                    T = .Top
+                End With
+'            Set Imagem = Plan2.Shapes.AddPicture(CaminhoImagem, msoFalse, msoCTrue, L, T, 70, 70)
+            cabecalho = cabecalho + 1
+            End If
+            For C = 3 To ulinha
+                If qt < 41 Then
+                    If Plan1.Cells(C, i) >= 0 Then
+                        Plan2.Cells(linha, i1) = Plan1.Cells(C, 1)
+                        Plan2.Cells(linha, i2) = Plan1.Cells(C, 2)
+                        Plan2.Cells(linha, i3) = Plan1.Cells(C, i)
+                        linha = linha + 1
+                        qt = qt + 1
+                    End If
+                    Else
+                        trocapag = trocapag + 1
+                        If trocapag >= 2 Then
+                            cabecalho = 0
+                            trocapag = 0
+                        End If
+                        qt = 0
+                        linha = 6
+                        i1 = i1 + 4
+                        i2 = i2 + 4
+                        i3 = i3 + 4
+                        
+                End If
+            Next
+            indicecoluna = indicecoluna + 1
+        Next
+End Sub
